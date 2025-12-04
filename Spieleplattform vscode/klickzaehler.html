@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <!-- Wichtig für Mobilgeräte-Responsivität -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klickzähler Pro</title>
+    <!-- Einbindung der externen CSS-Datei -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Einbindung des PWA Manifests -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body onload="loadState()">
+
+    <header>
+        <button id="resetBtn" onclick="resetCounter()" aria-label="Zähler zurücksetzen" title="Zurücksetzen">↻</button>
+        <!-- Button zum Öffnen der Seitenleiste -->
+        <button id="leistBtn" onclick="toggleSidebar()" aria-label="Mehr Optionen" title="Mehr">☰</button>
+            
+        <!-- DIE SEITENLEISTE (Sidebar) -->
+        <div class="leiste" id="sidebar">
+            <h1>Menü</h1>
+            <nav>
+                <ul>
+                    <!-- NEU: Link zurück zur Startseite -->
+                    <li><a href="index.html">Spiele-Übersicht</a></li>
+                    <li><a href="impressum.html">Impressum</a></li>
+                    <li><a href="datenschutz.html">Datenschutz</a></li>
+                    <!-- Hier könnten weitere Links folgen -->
+                </ul>
+                <h3>Optionen</h3>
+                <ul>
+                    <!-- Diese rufen JS-Funktionen auf und schließen die Leiste -->
+                    <li><a href="#" onclick="resetCounter(); toggleSidebar()">Zähler zurücksetzen</a></li>
+                    <li><a href="#" onclick="resetHighscore(); toggleSidebar()">Highscore löschen</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Editierbare H1-Zeile -->
+        <h1 id="counterTitle" contenteditable="true" onblur="saveTitle()">Mein Klickzähler</h1>
+
+        <!-- Zähler -->
+        <span id="count">0</span>
+
+        <!-- Controls (kleine -, großer + Button, kleine 0 zum Zurücksetzen) -->
+        <div class="controls">
+            <button class="small-btn" onclick="decrement()" aria-label="Zähler verringern">-</button>
+            <button class="main-btn" onclick="increment()" aria-label="Zähler erhöhen">+</button>
+            <button class="small-btn" onclick="resetCounter()" aria-label="Zurücksetzen">0</button>
+        </div>
+        
+        <!-- Timer und Highscore -->
+        <div class="meta">
+            <span id="timer">00:00</span>
+            <span id="highscore">Best: 0</span>
+        </div>
+    </main>
+    
+    <!-- BLOCKIERENDES COOKIE MODAL START -->
+    <!-- Das blockierende Overlay, das den Hintergrund unscharf macht -->
+    <div id="cookieOverlay"></div>
+
+    <!-- Das Cookie Consent Modal selbst -->
+    <div id="cookieBanner" class="cookie-banner">
+        <p>Wir verwenden Local Storage, um Ihren Zählerstand zu speichern und die App offline verfügbar zu machen. Dies sind keine Cookies im klassischen Sinne, aber wir informieren Sie trotzdem. <a href="datenschutz.html">Mehr erfahren</a></p>
+        <button id="acceptCookie" class="small-btn">Verstanden</button>
+    </div>
+    <!-- BLOCKIERENDES COOKIE MODAL END -->
+
+    <footer>
+        <!-- KORRIGIERTE LINKS OHNE FÜHRENDEN SCHRÄGSTRICH -->
+        <p>&trade; 2025 Klickzähler | <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+    </footer>
+
+    <!-- Die JavaScript Datei für dieses Spiel -->
+    <script src="klickzaehler_script.js"></script>
+
+    <!-- PWA Service Worker Registrierung -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('SW registriert: ', registration))
+                    .catch(registrationError => console.log('SW Registrierung fehlgeschlagen: ', registrationError));
+            });
+        }
+    </script>
+</body>
+</html>

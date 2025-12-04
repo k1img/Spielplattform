@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiele-Plattform Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <!-- Die spezifischen Styles wurden nach styles.css ausgelagert -->
+</head>
+<body onload="loadState()">
+
+    <main class="container game-selection">
+        <h1>Wähle dein Spiel</h1>
+        
+        <!-- NEU: Wrapper für die Spielkarten-Anordnung -->
+        <div class="game-cards-wrapper">
+            <a href="klickzaehler.html" class="game-card">
+                <h2>Klick-Zähler Pro</h2>
+                <p>Teste deine Klick-Geschwindigkeit in dieser minimalistischen App!</p>
+            </a>
+
+            <a href="reaktionsschalter.html" class="game-card">
+                <h2>Reaktions-Schalter</h2>
+                <p>Wie schnell kannst du das Licht ausschalten, bevor es zu dunkel wird?</p>
+            </a>
+        </div>
+    </main>
+
+    <!-- BLOCKIERENDES COOKIE MODAL START -->
+    <div id="cookieOverlay"></div>
+    <div id="cookieBanner" class="cookie-banner">
+        <p>Wir verwenden Local Storage, um Ihre Einstellungen zu speichern. <a href="datenschutz.html">Mehr erfahren</a></p>
+        <button id="acceptCookie" class="small-btn">Verstanden</button>
+    </div>
+    <!-- BLOCKIERENDES COOKIE MODAL END -->
+
+    <footer>
+        <p>&trade; 2025 Spiele-Plattform | <a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+    </footer>
+
+    <script src="klickzaehler_script.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('SW registriert: ', registration))
+                    .catch(registrationError => console.log('SW Registrierung fehlgeschlagen: ', registrationError));
+            });
+        }
+    </script>
+</body>
+</html>
